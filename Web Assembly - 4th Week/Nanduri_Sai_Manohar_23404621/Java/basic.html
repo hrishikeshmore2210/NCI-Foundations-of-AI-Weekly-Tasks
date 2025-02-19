@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CheerpJ Test</title>
+    <script src="https://cjrtnc.leaningtech.com/3.1/cj3loader.js"></script>
+</head>
+<body>
+    <h1>Running Java in Browser with CheerpJ</h1>
+    <pre id="output"></pre>
+
+    <script>
+      (async function () {
+        try {
+          await cheerpjInit();
+          console.log("CheerpJ Initialized Successfully.");
+
+          // Run the JAR file
+          await cheerpjRunJar("Main.jar");
+          console.log("JAR File Loaded Successfully.");
+
+          // Run the Main class
+          await cheerpjRunMain("Main");
+          console.log("Java Program Executed.");
+
+        } catch (error) {
+          console.error("Error running CheerpJ:", error);
+        }
+      })();
+    </script>
+</body>
+</html>
