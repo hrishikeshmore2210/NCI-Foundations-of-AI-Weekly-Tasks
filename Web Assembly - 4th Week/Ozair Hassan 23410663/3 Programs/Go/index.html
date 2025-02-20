@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Go WASM Calculator</title>
+  </head>
+  <body>
+    <h1>Go WASM Calculator</h1>
+    <input
+      type="number"
+      id="num1"
+      placeholder="First number"
+    />
+    <input
+      type="number"
+      id="num2"
+      placeholder="Second number"
+    />
+    <br /><br />
+    <button onclick="doCalc('add')">Add</button>
+    <button onclick="doCalc('subtract')">Subtract</button>
+    <button onclick="doCalc('multiply')">Multiply</button>
+    <button onclick="doCalc('divide')">Divide</button>
+    <p id="result"></p>
+
+    <script src="wasm_exec.js"></script>
+    <script>
+      const go = new Go()
+      WebAssembly.instantiateStreaming(
+        fetch('main.wasm'),
+        go.importObject
+      ).then((result) => {
+        go.run(result.instance)
+      })
+
+      function doCalc(op) {
+        const a = document.getElementById('num1').value
+        const b = document.getElementById('num2').value
+        const result = window[op](a, b) // Calls the exported Go function
+        document.getElementById('result').innerText = 'Result: ' + result
+      }
+    </script>
+  </body>
+</html>
