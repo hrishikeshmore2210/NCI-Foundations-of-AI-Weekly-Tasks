@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/pyodide@0.23.0/pyodide.js"></script>
+</head>
+<body>
+    <button onclick="runPython()">Run Python</button>
+    <p id="output"></p>
+
+    <script>
+        async function runPython() {
+            let pyodide = await loadPyodide();
+            let result = await pyodide.runPython(`
+numbers = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]
+product = 1
+for num in numbers:
+    product *= num
+product
+            `);
+            document.getElementById("output").innerText = "Product: " + result;
+        }
+    </script>
+</body>
+</html>
