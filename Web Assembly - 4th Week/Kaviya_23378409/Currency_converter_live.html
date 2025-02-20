@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euro to INR Converter</title>
+    <script src="https://cdn.jsdelivr.net/npm/pyodide@0.22.1/pyodide.js"></script>
+    <script>
+        async function fetchExchangeRates() {
+            const apiKey = '136580d8a7bf476fb260ce81';
+            const url = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/EUR`;
+
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data.result === 'success') {
+                    return data.conversion_rates;
+                } else {
+                    throw new Error("Failed to fetch rates");
+                }
+            } catch (error) {
+                console.error("Error: ", error);
+                return null;
+            }
+        }
+
+        async function runPythonCode() {
+            try {
+                let pyodide = await loadPyodide();
+                const pythonFile = await fetch('currency_converter.py');
+                const pythonCode = await pythonFile.text();
+
+                pyodide.runPython(pythonCode);
+
+                let amount = parseFloat(document.getElementById('amount').value);
+                let fromCurrency = "EUR";
+                let toCurrency = "INR";
+
+                const rates = await fetchExchangeRates();
+                if (!rates) {
+                    document.getElementById('result').innerText = "Error fetching rates.";
+                    return;
+                }
+
+                let result = pyodide.runPython(`
+                    convert_currency(${amount}, ${rates[fromCurrency]}, ${rates[toCurrency]})
+                `);
+
+                document.getElementById('result').innerText = "Converted Amount: " + result;
+            } catch (error) {
+                console.error("Error: ", error);
+                document.getElementById('result').innerText = "Error occurred.";
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Euro to INR Converter</h1>
+    <input type="number" id="amount" placeholder="Amount">
+    <button onclick="runPythonCode()">Convert</button>
+    <h2 id="result"></h2>
+</body>
+</html>
