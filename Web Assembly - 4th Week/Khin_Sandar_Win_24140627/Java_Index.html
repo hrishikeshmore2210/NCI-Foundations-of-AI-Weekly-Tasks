@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WASM DEMO|Java|Square Calculator</title>
+        <link rel="stylesheet" href="styles.css" />
+        <script src="classes.js"></script>
+    </head>
+    <body>
+        <h1>Square Calculator (using Java + wasm)</h1>
+        <div>
+            <form onsubmit="calculate(event)">
+                <label for="numberInput">Enter a number to calculate its square:</label>
+                <input type="number" id="numberInput" placeholder="Enter a number" required>
+                <button type="submit">Calculate Square</button>
+            </form>
+            <hr/>
+            <p id="result"></p>
+        </div>
+
+        <script src="java-funcs.js"></script>
+    </body>
+</html>
