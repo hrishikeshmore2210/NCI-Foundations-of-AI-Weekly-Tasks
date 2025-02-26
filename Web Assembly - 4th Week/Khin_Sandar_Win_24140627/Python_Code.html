@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASM DEMO|Python|Square Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        label, input, button {
+            display: block;
+            margin-bottom: 10px;
+        }
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.21.3/full/pyodide.js"></script>
+</head>
+<body>
+    <form id="power">
+        <label for="numberInput">Please input two numbers to calculate its power:</label>
+        <input type="number" id="numberInput1" required>
+        <input type="number" id="numberInput2" required>
+        <button type="submit">Calculate</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('power').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const number1 = parseFloat(document.getElementById('numberInput1').value);
+            const number2 = parseFloat(document.getElementById('numberInput2').value);
+            runPython(number1, number2);
+        });
+
+        async function runPython(number1, number2) {
+            let pyodide = await loadPyodide();
+            await pyodide.runPythonAsync(`
+                def power(num1, num2):
+                    return num1 ** num2
+            `);
+            let result = pyodide.globals.get("power")(number1, number2);
+            document.getElementById('result').textContent = `The power of ${number1} and ${number2}is ${result}`;
+        }
+    </script>
+</body>
+</html>

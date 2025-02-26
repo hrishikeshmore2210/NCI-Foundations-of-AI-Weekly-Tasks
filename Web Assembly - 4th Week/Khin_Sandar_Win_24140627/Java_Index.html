@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Power Calculation</title>
+        <link rel="stylesheet" href="styles.css" />
+        <script defer src="java-funcs.js"></script>
+    </head>
+    <body>
+        <h2>Power Calculation</h2>
+        <div>
+            <form onsubmit="calculate(event)">
+                <label for="numberInput1">Enter base number:</label>
+                <input type="number" id="numberInput1" placeholder="Base number" required>
+                <label for="numberInput2">Enter exponent:</label>
+                <input type="number" id="numberInput2" placeholder="Exponent" required>
+                <button type="submit">Calculate</button>
+            </form>
+            <hr/>
+            <p id="result"></p>
+        </div>
+    </body>
+</html>
